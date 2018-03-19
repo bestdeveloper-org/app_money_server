@@ -1,45 +1,55 @@
 const router = require('koa-router')();
 // const authMiddleware = require('../shared/auth/auth.middleware').errorHandler();
-const surveyModule = require('../modules/reports/survey/surveyReport')();
-const parse = require('co-body');
-const fs = require('fs-extra');
-const koabusBoy = require('co-busboy');
-const cmd = require('node-cmd');
-const testPipeline = require('pipeline-test-node');
 const mongoQuery = require('../utils/mongoQuery')();
-const categoryService = require('../modules/categories/categoryService')();
 const jwtMiddleware = require("../jwt/jwt");
+const ObjectID = require("mongodb").ObjectID;
 
-const uuidv4 = require('uuid/v4');
-
-
-function getModule(name) {
-  switch (name) {
-    case 'survey': {
-      return surveyModule;
-      break;
-    }
-    case 'poloLogger': {
-      return poloLoggerModule;
-      break;
-    }
-  }
-}
+const categoryHelper = require("../modules/categories/categoryHelper")
 
 router
   .prefix('/api/category')
-  .use(jwtMiddleware.mainMiddleware())
-  .use(async function (ctx, next) {
-  // console.log("category 000");
-  // var authHeader = ctx.req.headers.authorization;
-  // var r = await jwt.verify(authHeader, config.tokenPassword);
-  // ctx.request.body.tokenObj = r;
+  .use(jwtMiddleware.mainPrivateMiddleware())
 
-  return next().catch((err) => {
-      throw err;
-});
+    .post("/add", async function (ctx) {
+  console.log("intra in addd");
+
+  const body = ctx.request.body;
+
+  var entity = new mongoQuery.categorySchema.Category();
+  entity.name = body.name;
+
+  var rez =  await entity.save();
+
+  // var entity = await mongoQuery.collection('category').insert(body);
+
+  return rez;
+  })
+
+.post("/insertoropdate", async function (ctx) {
+  console.log("intra in addd");
+
+  const body = ctx.request.body;
+  return await categoryHelper.add_edit(body);
+
 })
-.post("/", async function (ctx) {
+
+
+.post("/generic", async function (ctx) {
+  const body = ctx.request.body;
+  console.log("generic");
+  console.log(body);
+
+  const data = body.data;
+
+  const method = body.proxy.method;
+  const service = categoryHelper;
+
+
+  const resp = await service[method](data, body.tokenObj);
+  return resp;
+})
+
+  .post("/", async function (ctx) {
   // console.log("category");
 
   // const body = ctx.request.body;

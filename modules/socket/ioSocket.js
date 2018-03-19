@@ -28,6 +28,10 @@ module.exports = function() {
 
         socket.emit('welcome', { hello: 'new user', socket_id: socket.id, usersCount : 1 });
 
+        socket.broadcast.emit('serverMessage', {evtName:"welcome",  hello: 'new user', socket_id: socket.id, usersCount : userCount });
+
+
+
         socket.on('clientRequest', function (data) {
           console.log(data);
           socket.emit('response', { clientRequestFromServer: data });
@@ -44,6 +48,7 @@ module.exports = function() {
           delete connectedUsers[socket.id];
 
           console.log(connectedUsers);
+          socket.broadcast.emit('serverMessage', {evtName:"welcome",  hello: 'new user', socket_id: socket.id, usersCount : userCount });
 
           // users.splice(
           //   users.findIndex(

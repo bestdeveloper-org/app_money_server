@@ -1,6 +1,6 @@
 module.exports = function(mongoose) {
   var Schema = mongoose.Schema;
-    var registerSchema = new mongoose.Schema({
+    var categorySchema = new mongoose.Schema({
         id: {
             type: String,
             index: true
@@ -9,11 +9,16 @@ module.exports = function(mongoose) {
         userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'User'
+        },
+        name:String,
+        parentId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'category'
         }
     });
 
     var models = {
-      Register: mongoose.model('register', registerSchema)
+      Category: mongoose.model('category', categorySchema)
     };
     return models;
 }
