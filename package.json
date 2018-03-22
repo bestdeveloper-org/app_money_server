@@ -28,6 +28,7 @@
     "koa-body": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-force-ssl": "0.0.5",
+    "koa-jwt": "^3.3.1",
     "koa-logger": "^3.1.0",
     "koa-router": "^7.3.0",
     "koa-send": "^4.1.2",
