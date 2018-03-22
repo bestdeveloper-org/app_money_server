@@ -11,7 +11,7 @@ var newsSchema = require('./../schemas/newsSchema.js')(mongoose);
 var exercisesSchema = require('./../schemas/exerciseSchema')(mongoose);
 
 var registerSchema = require('./../schemas/registerSchema')(mongoose);
-
+var categorySchema = require('./../schemas/categorySchema')(mongoose);
 
 
 
@@ -83,6 +83,7 @@ module.exports = function(app) {
       newsSchema:newsSchema,
       exercisesSchema:exercisesSchema,
       registerSchema:registerSchema,
+        categorySchema:categorySchema,
       executeQuery: function(query) {
         // return new Promise(function (resolve, reject) {
         //   query.exec(function(err, recordset) {
