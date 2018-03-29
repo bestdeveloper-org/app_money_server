@@ -40,6 +40,7 @@ async function mainMiddleware(ctx, next) {
 
   let response = null;
   try {
+    console.log(1);
     response = await next(); // next is now a function
     console.log(response);
     ctx.body = responseWrapper.success(response);

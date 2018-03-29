@@ -8,10 +8,14 @@ const categoryHelper = require("../modules/categories/categoryHelper")
 
 router
   .prefix('/api/category')
-  .use(jwtMiddleware.mainPrivateMiddleware())
+  .use(jwtMiddleware.mainMiddleware())
 
     .post("/add", async function (ctx) {
   console.log("intra in addd");
+
+  // throw {name: "Ion"};
+  // return ctx.body=ctx.request.body;
+
 
   const body = ctx.request.body;
 

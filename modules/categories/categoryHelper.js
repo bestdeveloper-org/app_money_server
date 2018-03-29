@@ -7,17 +7,17 @@ class CategoryHelper {
 
     var findCriteria = {};
     findCriteria.id = data.id;
-    // if (data._id) {
-    //     findCriteria._id = ObjectID(data._id);
-    // }else {
-    //     findCriteria._id = new ObjectID();
-    // }
+    if (data._id) {
+        findCriteria._id = ObjectID(data._id);
+    }else {
+        findCriteria._id = new ObjectID();
+    }
 
     var setCriteria = {
         '$set': {
             name:data.name,
-            id:data.id,
-            userId: tokenObj.id
+             // id:data.id,
+             // userId: tokenObj.id
         }
     }
 
@@ -28,21 +28,21 @@ class CategoryHelper {
 
 }
 
-    async get(data, tokenObj) {
-
-
-    console.log(data);
-    console.log(tokenObj);
-    var findCriteria = {
-        userId: new ObjectID(tokenObj.id)
-    };
-
-    var entity= await mongoQuery.categorySchema.Category.find(findCriteria);
-
-    console.log(entity);
-    return entity;
-
-}
+//     async get(data, tokenObj) {
+//
+//
+//     console.log(data);
+//     console.log(tokenObj);
+//     var findCriteria = {
+//         userId: new ObjectID(tokenObj.id)
+//     };
+//
+//     var entity= await mongoQuery.categorySchema.Category.find(findCriteria);
+//
+//     console.log(entity);
+//     return entity;
+//
+// }
 }
 
 module.exports = new CategoryHelper();
