@@ -9,6 +9,7 @@ const routesCategory = require('./routes/routes.category');
 const routesNews = require('./routes/routes.news');
 const routesRegister = require('./routes/routes.register');
 const routesPrivate = require('./routes/routes.private');
+const routesDelete = require ('./routes/routes.delete');
 const lcRouter = require('koa-router')();
 
 const responseWrapper = require('./utils/responseWrapper')();
@@ -59,6 +60,7 @@ lcRouter.use(routesCategory.routes());
 lcRouter.use(routesNews.routes());
 lcRouter.use(routesRegister.routes());
 lcRouter.use(routesPrivate.routes());
+lcRouter.use(routesDelete.routes());
 
 
 app.use(lcRouter.routes()).use(lcRouter.allowedMethods());
