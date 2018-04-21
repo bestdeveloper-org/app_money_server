@@ -34,7 +34,8 @@ module.exports = function() {
           success: false,
           data: null,
           message: obj.message,
-          text:obj.text
+          text:obj.text,
+            error: obj
         };
         return response;
       },

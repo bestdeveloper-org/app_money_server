@@ -9,6 +9,7 @@ const routesCategory = require('./routes/routes.category');
 const routesNews = require('./routes/routes.news');
 const routesRegister = require('./routes/routes.register');
 const routesPrivate = require('./routes/routes.private');
+const routesDelete = require('./routes/routes.delete');
 const lcRouter = require('koa-router')();
 
 const responseWrapper = require('./utils/responseWrapper')();
@@ -40,16 +41,6 @@ app.use(cors());
 app.use(BodyParser());
 app.use(cors());
 
-// app.use('/api',async (ctx, next) => {
-//   let response = null;
-//   try {
-//     response = await next(); // next is now a function
-//     ctx.body = responseWrapper.success(response);
-//   } catch (err) {
-//     ctx.body = responseWrapper.failure(err);
-//   }
-// })
-
 
 
 lcRouter.use(lcPublicRoutes.routes());
@@ -59,6 +50,7 @@ lcRouter.use(routesCategory.routes());
 lcRouter.use(routesNews.routes());
 lcRouter.use(routesRegister.routes());
 lcRouter.use(routesPrivate.routes());
+lcRouter.use(routesDelete.routes());
 
 
 app.use(lcRouter.routes()).use(lcRouter.allowedMethods());

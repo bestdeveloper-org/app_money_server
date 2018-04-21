@@ -189,6 +189,7 @@ mocha.run(function(failures){
       let body = ctx.request.body;
       return await securityModule.login(body);
     })
+
   .post('/security/loginfb', async function(ctx) {
     let body = ctx.request.body;
   return await securityModule.loginfb(body);

@@ -7,19 +7,23 @@ const ObjectID = require("mongodb").ObjectID;
 const categoryHelper = require("../modules/categories/categoryHelper")
 
 router
-  .prefix('/api/category')
-  .use(jwtMiddleware.mainPrivateMiddleware())
+  .prefix('/api/delete')
+  .use(jwtMiddleware.mainMiddleware())
+    .post("/category", async function (ctx) {
 
-    .post("/add", async function (ctx) {
+      console.log("intra in delete ");
 
-      console.log("intra in addd");
-
+  // return {ok:1};
   const body = ctx.request.body;
+  console.log(body);
+  //return await mongoQuery.collection('categories').remove({id:body.id});
 
-  var entity = new mongoQuery.categorySchema.Category();
-  entity.name = body.name;
-
-  var rez =  await entity.save();
+  return await mongoQuery.collection('categories')
+      .remove(
+      {
+        _id:ObjectID(body._id)
+      }
+  );
 
   // var entity = await mongoQuery.collection('category').insert(body);
 

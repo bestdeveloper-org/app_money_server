@@ -19,6 +19,7 @@ module.exports = function() {
       });
 
       ioSocketServer.on('connection', function(socket){
+        debugger;
         console.log("new connection");
         //users.push(socket);
         userCount++;

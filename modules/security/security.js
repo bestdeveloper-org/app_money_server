@@ -40,49 +40,43 @@ module.exports = function() {
     //return responseWrapper.sendResponse(true, userResponse, "", "");
   },
          async login(obj) {
-            if(!obj || !obj.login || !obj.password)
+
+        console.log(obj);
+            if(!obj)
             {
-                throw {message:"invalid_password1"};
+                throw {message:"no body"};
                 //return responseWrapper.sendResponse(false, null, "invalid_password", "");
             }
-            //logger.log(mongoQuery);
-            logger.log(JSON.stringify(obj).green);
-            // var query = mongoQuery.userSchemas.Users.find({
-            //     $or: [{
-            //         'name': obj.Login
-            //     }, {
-            //         'email': obj.Login
-            //     }]
-            // });
+        if(!obj.login)
+        {
+            throw {message:"no login"};
+            //return responseWrapper.sendResponse(false, null, "invalid_password", "");
+        }
+
+        if(!obj.password)
+        {
+            throw {message:"no password"};
+            //return responseWrapper.sendResponse(false, null, "invalid_password", "");
+        }
+
+
             var user = await mongoQuery.collection("users").findOne({
                 email: obj.login.toLowerCase()
             });
-            // console.log("user8888888888888888888888");
-            // var user = await mongoQuery.executeQuery(userCrit);
-            // console.log("u");
-            // console.log(user);
+
             if(!user)
             {
-              throw {message:"invalid_password1"};
-                //return responseWrapper.sendResponse(false, null, "invalid_password1", "");
-            }
-            if(!obj.password)
-            {
-              throw {message:"invalid_password2"};
-                //return responseWrapper.sendResponse(false, null, "invalid_password2", "");
+              throw {message:"no user found"};
             }
 
             var password = encryption.encrypt(obj.password, user.salt);
 
-            //logger.log(password + " -- " + user.password);
-
-            if (password != user.password) {
-              throw {message:"invalid_password3"};
-                // return responseWrapper.sendResponse(false, null, "invalid_password3", "");
+            if (password !== user.password) {
+              throw {message:"invalid_password"};
             }
 
             var userResponse = models.createUserResponse(user);
-    return userResponse;
+            return userResponse;
 
             //return responseWrapper.sendResponse(true, userResponse, "", "");
         },

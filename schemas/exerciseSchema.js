@@ -7,7 +7,7 @@ module.exports = function(mongoose) {
         },
       date:Date,
       items:[{
-        userId: {
+            userId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'User'
         },
