@@ -7,11 +7,6 @@ class CategoryHelper {
 
     var findCriteria = {};
     findCriteria.id = data.id;
-    // if (data._id) {
-    //     findCriteria._id = ObjectID(data._id);
-    // }else {
-    //     findCriteria._id = new ObjectID();
-    // }
 
     var setCriteria = {
         '$set': {
@@ -43,6 +38,56 @@ class CategoryHelper {
     return entity;
 
 }
+
+    async getByID(data) {
+    console.log(data);
+    var findCriteria = {
+        _id: new ObjectID(data._id)
+    };
+
+    var entity= await mongoQuery.categorySchema.Category.findOne(findCriteria);
+
+    console.log(entity);
+    return entity;
+
+}
+
+    async updateCategoryName(data) {
+        var dbResult = await mongoQuery.categorySchema.Category.updateOne({
+            _id : new ObjectID(data._id)
+        },{
+            $set:{
+                name : data.name,
+            }
+        });
+        return dbResult;
+    }
+
+    async getCategoryPages(obj) {
+
+        const filterCriteria = {};
+        const fields = {};
+        var filter =  mongoQuery.categorySchema.Category.find(filterCriteria);
+
+        if (obj.pager) {
+            obj.pager.itemsOnPage = parseInt(obj.pager.itemsOnPage);
+            obj.pager.pageNo--;
+            filter = filter.limit(obj.pager.itemsOnPage)
+                .skip(obj.pager.itemsOnPage * obj.pager.pageNo)
+            // query = query.sort({
+            //   dateAdded: -1
+            // });
+        }
+
+        const list = await mongoQuery.executeQuery(filter);
+        const count = await mongoQuery.collection('categories').count(filterCriteria);
+
+        return {
+            items: list,
+            count: count,
+            pageNo: obj.pager ? obj.pager.pageNo + 1 : 0
+        };
+    }
 }
 
 module.exports = new CategoryHelper();
